@@ -1,0 +1,7 @@
+<!-- Design System: “地层与石灰” — a compact ochre sun and deep umber ridge, optimized as a local favicon. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Plaza Sargento Mariano Gómez">
+  <rect width="64" height="64" rx="12" fill="#F4ECDD"/>
+  <circle cx="34" cy="28" r="17" fill="#B65B32"/>
+  <path d="M8 45c9-9 18-9 26-4 7-7 14-9 22-5v16H8Z" fill="#34271F"/>
+  <path d="M13 53c11-4 23-4 38 0M15 58c10-3 22-3 34 0" fill="none" stroke="#F4ECDD" stroke-linecap="round" stroke-width="2"/>
+</svg>

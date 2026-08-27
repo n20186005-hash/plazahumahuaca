@@ -1,0 +1,8 @@
+---
+// Design System: “地层与石灰” — a concise, reassuring field-guide detour that keeps the visitor inside the site’s route system.
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Página no encontrada | Guía Plaza Mariano Gómez" description="Página no encontrada." noIndex={true}>
+  <section class="not-found section-wrap"><p class="eyebrow">404</p><h1 class="display" data-es="Este sendero no aparece en la guía." data-en="This path is not in the guide.">Este sendero no aparece en la guía.</h1><p data-es="Vuelve a la plaza para continuar el recorrido." data-en="Return to the plaza to continue your route.">Vuelve a la plaza para continuar el recorrido.</p><a href="/" data-es="Ir al inicio" data-en="Go to the guide">Ir al inicio</a></section>
+</BaseLayout>
+<style>/* Design System: “地层与石灰” — generous limestone space and a single ochre route back keep the detour dignified. */.not-found{min-height:60vh;padding:9rem 0}.not-found h1{max-width:11ch;margin:.5rem 0 1rem;font-size:clamp(3rem,7vw,6rem);line-height:.9}.not-found a{display:inline-block;margin-top:1rem;padding:.7rem 1rem;color:var(--paper);background:var(--umber);font-weight:700;text-decoration:none}</style>

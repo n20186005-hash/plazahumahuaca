@@ -1,0 +1,53 @@
+---
+// Design System: “地层与石灰” — a parchment header with an oversized generated mark and compact field-guide navigation.
+const logoUrl = "/manus-storage/plaza-mariano-gomez-logo_6a88304d.png";
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Plaza Sargento Mariano Gómez — inicio">
+      <img data-brand-logo src={logoUrl} width="54" height="54" alt="" />
+      <span class="brand-copy">
+        <span class="brand-overline">Humahuaca · Jujuy</span>
+        <span class="display">Plaza Mariano Gómez</span>
+      </span>
+    </a>
+    <nav aria-label="Navegación principal" class="desktop-nav">
+      <a href="#visita" data-es="Planifica" data-en="Plan your visit">Planifica</a>
+      <a href="#llegar" data-es="Cómo llegar" data-en="Getting here">Cómo llegar</a>
+      <a href="#entorno" data-es="El entorno" data-en="Around the plaza">El entorno</a>
+      <a href="#preguntas" data-es="Preguntas" data-en="FAQ">Preguntas</a>
+    </nav>
+    <div class="header-controls" aria-label="Selector de idioma">
+      <button class="lang-button active" type="button" data-language="es" aria-pressed="true">ES</button>
+      <span aria-hidden="true">/</span>
+      <button class="lang-button" type="button" data-language="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  const brandLogo = document.querySelector("[data-brand-logo]");
+  brandLogo?.addEventListener("error", () => {
+    brandLogo.setAttribute("src", "/favicon.svg");
+  }, { once: true });
+</script>
+
+<style>
+  /* Design System: “地层与石灰” — field-guide navigation stays airy, mineral, and visibly tactile. */
+  .site-header { position: relative; z-index: 20; border-bottom: 1px solid rgba(52,39,31,.14); background: rgba(250,247,239,.93); box-shadow:inset 0 -3px 0 rgba(182,91,50,.09); backdrop-filter: blur(12px); }
+  .header-inner { display:flex; width:min(1240px,calc(100% - 2rem)); min-height:84px; margin:auto; align-items:center; justify-content:space-between; gap:1rem; }
+  .brand { display:flex; align-items:center; gap:.72rem; color:var(--umber); text-decoration:none; }
+  .brand img { width:3.35rem; height:3.35rem; padding:.12rem; object-fit:contain; border:1px solid rgba(182,91,50,.45); background:#f4ecdd; box-shadow:3px 3px 0 rgba(182,91,50,.18); }
+  .brand-copy { display:grid; line-height:1.05; }
+  .brand-overline { margin-bottom:.22rem; color:var(--ochre-dark); font-size:.61rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+  .brand .display { font-size:1.12rem; font-weight:650; }
+  .desktop-nav { display:flex; align-items:center; gap:1.15rem; font-size:.86rem; font-weight:600; }
+  .desktop-nav a { text-decoration:none; transition:color 160ms var(--ease-out); }
+  .desktop-nav a:hover { color:var(--ochre-dark); }
+  .header-controls { display:flex; align-items:center; gap:.36rem; color:var(--ochre-dark); font-size:.78rem; }
+  .lang-button { border:0; padding:.36rem .24rem; color:inherit; background:transparent; font:inherit; font-weight:700; cursor:pointer; }
+  .lang-button.active { color:var(--umber); text-decoration:underline; text-decoration-color:var(--ochre); text-decoration-thickness:3px; text-underline-offset:4px; }
+  .lang-button:active { transform:scale(.97); }
+  @media (max-width: 760px) { .header-inner{min-height:74px}.desktop-nav{display:none}.brand img{width:2.7rem;height:2.7rem}.brand .display{font-size:1rem} }
+</style>

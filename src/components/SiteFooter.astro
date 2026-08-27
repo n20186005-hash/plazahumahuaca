@@ -1,0 +1,39 @@
+---
+// Design System: “地层与石灰” — a dark mineral footer, structured like the final page of a field guide rather than a sales panel.
+---
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <img class="footer-mark" src="/favicon.svg" width="48" height="48" alt="" />
+      <p class="eyebrow footer-label">Guía pública independiente</p>
+      <h2 class="display" data-es="Un punto de partida, no una voz oficial." data-en="A starting point, not an official voice.">Un punto de partida, no una voz oficial.</h2>
+    </div>
+    <div class="footer-copy">
+      <p data-es="Este sitio es un proyecto independiente y sin fines de lucro de información para visitantes. No está afiliado a ninguna entidad gubernamental, organización oficial ni operador comercial." data-en="This site is an independent, non-profit visitor-information project. It is not affiliated with any government body, official organisation, or commercial operator.">Este sitio es un proyecto independiente y sin fines de lucro de información para visitantes. No está afiliado a ninguna entidad gubernamental, organización oficial ni operador comercial.</p>
+      <p data-es="La información se contrasta con fuentes públicas de la Municipalidad de Humahuaca, el Ministerio de Cultura y Turismo de Jujuy, organismos públicos argentinos y UNESCO; no incluye recomendaciones comerciales." data-en="Information is cross-checked against public sources from the Municipality of Humahuaca, Jujuy’s Ministry of Culture and Tourism, Argentine public bodies, and UNESCO; it contains no commercial endorsements.">La información se contrasta con fuentes públicas de la Municipalidad de Humahuaca, el Ministerio de Cultura y Turismo de Jujuy, organismos públicos argentinos y UNESCO; no incluye recomendaciones comerciales.</p>
+      <p data-es="Las fotografías conservan los derechos de sus autores y colaboradores originales." data-en="Photographs remain the property of their original photographers and contributors.">Las fotografías conservan los derechos de sus autores y colaboradores originales.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Guía Plaza Mariano Gómez.</p>
+    <nav aria-label="Enlaces legales">
+      <a href="/privacy" data-es="Privacidad" data-en="Privacy">Privacidad</a>
+      <a href="/terms" data-es="Términos" data-en="Terms">Términos</a>
+      <a href="/cookies" data-es="Cookies" data-en="Cookies">Cookies</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  /* Design System: “地层与石灰” — deep umber, earth-tone rules and generous negative space close the guide with restraint. */
+  .site-footer { color:#f4ecdd; background:var(--umber); }
+  .footer-grid { display:grid; width:min(1180px,calc(100% - 2rem)); margin:auto; grid-template-columns:.85fr 1.15fr; gap:3rem; padding:4.5rem 0 3.5rem; }
+  .footer-mark{display:block;width:3rem;height:3rem;margin:0 0 1rem;border:1px solid rgba(223,162,118,.65);background:#f4ecdd}.footer-label { color:#dfa276; }
+  .site-footer h2 { max-width:17ch; margin:.5rem 0 0; font-size:clamp(2rem,4vw,3.6rem); line-height:.98; }
+  .footer-copy { max-width:59ch; color:#e8dac6; font-size:.96rem; }
+  .footer-copy p { margin:0 0 1rem; }
+  .footer-bottom { display:flex; width:min(1180px,calc(100% - 2rem)); margin:auto; padding:1.15rem 0 1.4rem; align-items:center; justify-content:space-between; gap:1rem; border-top:1px solid rgba(244,236,221,.19); color:#cbbba7; font-size:.82rem; }
+  .footer-bottom p { margin:0; }.footer-bottom nav{display:flex;gap:1rem}.footer-bottom a{color:#f4ecdd;text-decoration:none}.footer-bottom a:hover{text-decoration:underline;text-decoration-color:#dfa276;text-underline-offset:4px}
+  @media(max-width:720px){.footer-grid{grid-template-columns:1fr;gap:1.5rem;padding:3.4rem 0 2.6rem}.footer-bottom{align-items:flex-start;flex-direction:column}.site-footer h2{max-width:18ch}}
+</style>

@@ -1,0 +1,104 @@
+---
+// Design System: “地层与石灰” — the shared shell treats metadata and interaction as an extension of an independent, archival field guide.
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+interface Props { title: string; description: string; noIndex?: boolean; }
+const { title, description, noIndex = false } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const pageUrl = canonical;
+const placeName = "Plaza Sargento Mariano Gómez";
+const faq = [
+  { question: "¿La plaza tiene horario de visita?", answer: "La ficha de Google Maps la indica abierta las 24 horas. Al ser un espacio público, las condiciones locales, eventos y trabajos de mantenimiento pueden cambiar; conviene verificar antes de viajar." },
+  { question: "¿Se cobra entrada?", answer: "No se indica una tarifa de acceso específica para la plaza. Las actividades, museos, excursiones o servicios cercanos pueden tener condiciones propias." },
+  { question: "¿Cómo llego desde el aeropuerto?", answer: "El acceso aéreo regional se realiza a través de San Salvador de Jujuy. Desde allí, la llegada a Humahuaca se completa por carretera mediante servicios de autobús, traslado contratado o vehículo autorizado." },
+  { question: "¿Hay estacionamiento?", answer: "Puede haber estacionamiento en vía pública sujeto a señalización, disponibilidad y controles locales. No se debe asumir la existencia de plazas reservadas junto al espacio público." },
+  { question: "¿Qué debo tener en cuenta por la altura?", answer: "Humahuaca se encuentra en un entorno de altura y clima seco. Planifique un ritmo pausado, hidratación, protección solar y ropa adaptable a cambios térmicos." }
+];
+const attractionSchema = {
+  "@context": "https://schema.org",
+  "@type": "TouristAttraction",
+  name: placeName,
+  description: "Plaza pública y punto de referencia histórico en Humahuaca, Jujuy, Argentina.",
+  address: { "@type": "PostalAddress", streetAddress: "Jujuy", postalCode: "4630", addressLocality: "Humahuaca", addressRegion: "Jujuy", addressCountry: "AR" },
+  geo: { "@type": "GeoCoordinates", latitude: -23.2039735, longitude: -65.3487032 },
+  openingHours: "Mo-Su 00:00-23:59",
+  aggregateRating: { "@type": "AggregateRating", ratingValue: "4.6", reviewCount: "5108", bestRating: "5", worstRating: "1" },
+  ...(pageUrl ? { url: pageUrl } : {})
+};
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } }))
+};
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/favicon-180.png" sizes="180x180" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,650;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {pageUrl && <meta property="og:url" content={pageUrl} />}
+    <meta name="twitter:card" content="summary" />
+    <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(attractionSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <script is:inline>
+      (() => {
+        if (localStorage.getItem("cookie-analytics") !== "true") return;
+        const tag = document.createElement("script");
+        tag.async = true;
+        tag.src = "https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP";
+        document.head.appendChild(tag);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag("js", new Date());
+        gtag("config", "G-HXM22WWPKP");
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido" data-es="Saltar al contenido" data-en="Skip to content">Saltar al contenido</a>
+    <div class="route-trail" aria-hidden="true"><svg viewBox="0 0 34 1000" preserveAspectRatio="none"><path d="M18 0 C4 85,29 136,16 210 S30 317,17 390 S2 512,19 591 S29 705,14 792 S26 902,17 1000"/><circle cx="16" cy="210" r="4"/><circle cx="17" cy="390" r="4"/><circle cx="19" cy="591" r="4"/><circle cx="14" cy="792" r="4"/></svg></div>
+    <div class="page-shell">
+      <SiteHeader />
+      <main id="contenido"><slot /></main>
+      <SiteFooter />
+    </div>
+    <script is:inline>
+      const preference = localStorage.getItem("guide-language");
+      const language = preference === "en" ? "en" : "es";
+      const setLanguage = (nextLanguage) => {
+        document.documentElement.lang = nextLanguage === "en" ? "en" : "es-AR";
+        document.querySelectorAll("[data-es][data-en]").forEach((element) => {
+          const text = element.dataset[nextLanguage];
+          if (text) element.textContent = text;
+        });
+        document.querySelectorAll("[data-language]").forEach((button) => {
+          const active = button.dataset.language === nextLanguage;
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-pressed", String(active));
+        });
+        localStorage.setItem("guide-language", nextLanguage);
+      };
+      setLanguage(language);
+      document.querySelectorAll("[data-language]").forEach((button) => button.addEventListener("click", () => setLanguage(button.dataset.language)));
+      const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add("is-visible"); }), { threshold: 0.12 });
+      document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+    </script>
+  </body>
+</html>
