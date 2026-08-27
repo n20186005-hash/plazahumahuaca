@@ -6,8 +6,10 @@ import SiteFooter from "../components/SiteFooter.astro";
 
 interface Props { title: string; description: string; noIndex?: boolean; }
 const { title, description, noIndex = false } = Astro.props;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "https://plazahumahuaca.com";
+const canonical = new URL(Astro.url.pathname, `${siteUrl}/`).toString();
 const pageUrl = canonical;
+const isHomePage = Astro.url.pathname === "/";
 const placeName = "Plaza Sargento Mariano Gómez";
 const faq = [
   { question: "¿La plaza tiene horario de visita?", answer: "La ficha de Google Maps la indica abierta las 24 horas. Al ser un espacio público, las condiciones locales, eventos y trabajos de mantenimiento pueden cambiar; conviene verificar antes de viajar." },
@@ -20,12 +22,32 @@ const attractionSchema = {
   "@context": "https://schema.org",
   "@type": "TouristAttraction",
   name: placeName,
-  description: "Plaza pública y punto de referencia histórico en Humahuaca, Jujuy, Argentina.",
-  address: { "@type": "PostalAddress", streetAddress: "Jujuy", postalCode: "4630", addressLocality: "Humahuaca", addressRegion: "Jujuy", addressCountry: "AR" },
-  geo: { "@type": "GeoCoordinates", latitude: -23.2039735, longitude: -65.3487032 },
-  openingHours: "Mo-Su 00:00-23:59",
-  aggregateRating: { "@type": "AggregateRating", ratingValue: "4.6", reviewCount: "5108", bestRating: "5", worstRating: "1" },
-  ...(pageUrl ? { url: pageUrl } : {})
+  alternateName: ["Plaza Humahuaca", "Plaza Central de Humahuaca"],
+  description: "Independent visitor guide to Plaza Sargento Mariano Gómez, the central public square of Humahuaca in Jujuy, Argentina.",
+  url: siteUrl,
+  mainEntityOfPage: siteUrl,
+  image: `${siteUrl}/assets/humahuaca-plaza-commons.jpg`,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Plaza Sargento Mariano Gómez",
+    postalCode: "4630",
+    addressLocality: "Humahuaca",
+    addressRegion: "Jujuy",
+    addressCountry: "AR"
+  },
+  geo: { "@type": "GeoCoordinates", latitude: -23.2039685, longitude: -65.3512781 },
+  containedInPlace: {
+    "@type": "Place",
+    name: "Humahuaca, Quebrada de Humahuaca, Jujuy, Argentina"
+  },
+  hasMap: "https://maps.app.goo.gl/WNmM8pUaegvxb9r28",
+  sameAs: [
+    "https://maps.app.goo.gl/WNmM8pUaegvxb9r28",
+    "https://www.argentina.travel/novedades/5-pueblos-de-la-quebrada-de-humahuaca-para-conocer-en-solo-24h",
+    "https://www.turismo.jujuy.gob.ar/"
+  ],
+  isAccessibleForFree: true,
+  openingHours: "Mo-Su 00:00-23:59"
 };
 const faqSchema = {
   "@context": "https://schema.org",
@@ -50,13 +72,16 @@ const faqSchema = {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,650;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="plazahumahuaca.com" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    {pageUrl && <meta property="og:url" content={pageUrl} />}
+    <meta property="og:url" content={pageUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:card" content="summary" />
     <title>{title}</title>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(attractionSchema)} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    {isHomePage && <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
     <script is:inline>
       (() => {
         if (localStorage.getItem("cookie-analytics") !== "true") return;

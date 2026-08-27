@@ -2,8 +2,8 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
-// The only URL setting for the site. Keep unset until a production domain is assigned.
-const site = process.env.SITE_URL?.trim() || undefined;
+// Keep a stable production canonical URL while allowing environment overrides.
+const site = process.env.SITE_URL?.trim() || "https://plazahumahuaca.com";
 
 // Development-only bridge for webdev-managed assets. Production hosting can use the same /manus-storage URLs supplied by the asset service.
 const manusStorageProxy = () => ({
