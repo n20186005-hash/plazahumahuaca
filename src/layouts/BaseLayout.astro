@@ -7,7 +7,9 @@ import SiteFooter from "../components/SiteFooter.astro";
 interface Props { title: string; description: string; noIndex?: boolean; }
 const { title, description, noIndex = false } = Astro.props;
 const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "https://plazahumahuaca.com";
-const canonical = new URL(Astro.url.pathname, `${siteUrl}/`).toString();
+let canonicalPath = Astro.url.pathname;
+if (canonicalPath !== "/" && !canonicalPath.endsWith("/")) canonicalPath += "/";
+const canonical = new URL(canonicalPath, `${siteUrl}/`).toString();
 const pageUrl = canonical;
 const isHomePage = Astro.url.pathname === "/";
 const placeName = "Plaza Sargento Mariano Gómez";
@@ -16,7 +18,9 @@ const faq = [
   { question: "¿Se cobra entrada?", answer: "No se indica una tarifa de acceso específica para la plaza. Las actividades, museos, excursiones o servicios cercanos pueden tener condiciones propias." },
   { question: "¿Cómo llego desde el aeropuerto?", answer: "El acceso aéreo regional se realiza a través de San Salvador de Jujuy. Desde allí, la llegada a Humahuaca se completa por carretera mediante servicios de autobús, traslado contratado o vehículo autorizado." },
   { question: "¿Hay estacionamiento?", answer: "Puede haber estacionamiento en vía pública sujeto a señalización, disponibilidad y controles locales. No se debe asumir la existencia de plazas reservadas junto al espacio público." },
-  { question: "¿Qué debo tener en cuenta por la altura?", answer: "Humahuaca se encuentra en un entorno de altura y clima seco. Planifique un ritmo pausado, hidratación, protección solar y ropa adaptable a cambios térmicos." }
+  { question: "¿Qué debo tener en cuenta por la altura?", answer: "Humahuaca se encuentra en un entorno de altura y clima seco. Planifique un ritmo pausado, hidratación, protección solar y ropa adaptable a cambios térmicos." },
+  { question: "¿En qué calle está la plaza?", answer: "Plaza Sargento Mariano Gómez se ubica en el casco histórico de Humahuaca, Jujuy, frente al Cabildo y a la Iglesia Catedral. Sus coordenadas aproximadas son −23.203974, −65.348703." },
+  { question: "¿Hay camping en Humahuaca?", answer: "Humahuaca y sus alrededores ofrecen opciones de camping y alojamiento. La plaza es un punto de partida práctico para recorrer la Quebrada; conviene verificar disponibilidad, temporada y servicios con los operadores o la Municipalidad antes de reservar." }
 ];
 const attractionSchema = {
   "@context": "https://schema.org",
@@ -47,7 +51,13 @@ const attractionSchema = {
     "https://www.turismo.jujuy.gob.ar/"
   ],
   isAccessibleForFree: true,
-  openingHours: "Mo-Su 00:00-23:59"
+  publicAccess: true,
+  openingHoursSpecification: [{
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    opens: "00:00",
+    closes: "23:59"
+  }]
 };
 const faqSchema = {
   "@context": "https://schema.org",
@@ -64,6 +74,10 @@ const faqSchema = {
     <meta name="description" content={description} />
     {noIndex && <meta name="robots" content="noindex" />}
     {canonical && <link rel="canonical" href={canonical} />}
+    {!noIndex && <>
+      <link rel="alternate" hreflang="es-AR" href={canonical} />
+      <link rel="alternate" hreflang="x-default" href={canonical} />
+    </>}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
     <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
