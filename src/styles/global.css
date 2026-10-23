@@ -129,3 +129,4 @@ a { color: inherit; }
 }
 
 @media (max-width: 700px) { .route-trail{left:8px;width:17px;opacity:.42}.route-trail path{stroke-width:1.2}.route-trail circle{stroke-width:1.2} }
+.image-credits{padding:1.2rem 0 2rem;font-size:.82rem;line-height:1.6;overflow-wrap:anywhere}.image-credits a{text-decoration:underline}.reveal{opacity:1;transform:none}.toggle input{width:100%;height:100%;margin:0;z-index:1;cursor:pointer}

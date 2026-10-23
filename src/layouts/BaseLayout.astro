@@ -11,59 +11,7 @@ let canonicalPath = Astro.url.pathname;
 if (canonicalPath !== "/" && !canonicalPath.endsWith("/")) canonicalPath += "/";
 const canonical = new URL(canonicalPath, `${siteUrl}/`).toString();
 const pageUrl = canonical;
-const isHomePage = Astro.url.pathname === "/";
-const placeName = "Plaza Sargento Mariano Gómez";
-const faq = [
-  { question: "¿La plaza tiene horario de visita?", answer: "La ficha de Google Maps la indica abierta las 24 horas. Al ser un espacio público, las condiciones locales, eventos y trabajos de mantenimiento pueden cambiar; conviene verificar antes de viajar." },
-  { question: "¿Se cobra entrada?", answer: "No se indica una tarifa de acceso específica para la plaza. Las actividades, museos, excursiones o servicios cercanos pueden tener condiciones propias." },
-  { question: "¿Cómo llego desde el aeropuerto?", answer: "El acceso aéreo regional se realiza a través de San Salvador de Jujuy. Desde allí, la llegada a Humahuaca se completa por carretera mediante servicios de autobús, traslado contratado o vehículo autorizado." },
-  { question: "¿Hay estacionamiento?", answer: "Puede haber estacionamiento en vía pública sujeto a señalización, disponibilidad y controles locales. No se debe asumir la existencia de plazas reservadas junto al espacio público." },
-  { question: "¿Qué debo tener en cuenta por la altura?", answer: "Humahuaca se encuentra en un entorno de altura y clima seco. Planifique un ritmo pausado, hidratación, protección solar y ropa adaptable a cambios térmicos." },
-  { question: "¿En qué calle está la plaza?", answer: "Plaza Sargento Mariano Gómez se ubica en el casco histórico de Humahuaca, Jujuy, frente al Cabildo y a la Iglesia Catedral. Sus coordenadas aproximadas son −23.203974, −65.348703." },
-  { question: "¿Hay camping en Humahuaca?", answer: "Humahuaca y sus alrededores ofrecen opciones de camping y alojamiento. La plaza es un punto de partida práctico para recorrer la Quebrada; conviene verificar disponibilidad, temporada y servicios con los operadores o la Municipalidad antes de reservar." }
-];
-const attractionSchema = {
-  "@context": "https://schema.org",
-  "@type": "TouristAttraction",
-  name: placeName,
-  alternateName: ["Plaza Humahuaca", "Plaza Central de Humahuaca"],
-  description: "Independent visitor guide to Plaza Sargento Mariano Gómez, the central public square of Humahuaca in Jujuy, Argentina.",
-  url: siteUrl,
-  mainEntityOfPage: siteUrl,
-  image: `${siteUrl}/assets/humahuaca-plaza-commons.jpg`,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Plaza Sargento Mariano Gómez",
-    postalCode: "4630",
-    addressLocality: "Humahuaca",
-    addressRegion: "Jujuy",
-    addressCountry: "AR"
-  },
-  geo: { "@type": "GeoCoordinates", latitude: -23.2039685, longitude: -65.3512781 },
-  containedInPlace: {
-    "@type": "Place",
-    name: "Humahuaca, Quebrada de Humahuaca, Jujuy, Argentina"
-  },
-  hasMap: "https://maps.app.goo.gl/WNmM8pUaegvxb9r28",
-  sameAs: [
-    "https://maps.app.goo.gl/WNmM8pUaegvxb9r28",
-    "https://www.argentina.travel/novedades/5-pueblos-de-la-quebrada-de-humahuaca-para-conocer-en-solo-24h",
-    "https://www.turismo.jujuy.gob.ar/"
-  ],
-  isAccessibleForFree: true,
-  publicAccess: true,
-  openingHoursSpecification: [{
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    opens: "00:00",
-    closes: "23:59"
-  }]
-};
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } }))
-};
+
 ---
 
 <!doctype html>
@@ -94,21 +42,7 @@ const faqSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:card" content="summary" />
     <title>{title}</title>
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(attractionSchema)} />
-    {isHomePage && <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
-    <script is:inline>
-      (() => {
-        if (localStorage.getItem("cookie-analytics") !== "true") return;
-        const tag = document.createElement("script");
-        tag.async = true;
-        tag.src = "https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP";
-        document.head.appendChild(tag);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag("js", new Date());
-        gtag("config", "G-HXM22WWPKP");
-      })();
-    </script>
+    <script is:inline src="/analytics.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#contenido" data-es="Saltar al contenido" data-en="Skip to content">Saltar al contenido</a>
@@ -118,26 +52,6 @@ const faqSchema = {
       <main id="contenido"><slot /></main>
       <SiteFooter />
     </div>
-    <script is:inline>
-      const preference = localStorage.getItem("guide-language");
-      const language = preference === "en" ? "en" : "es";
-      const setLanguage = (nextLanguage) => {
-        document.documentElement.lang = nextLanguage === "en" ? "en" : "es-AR";
-        document.querySelectorAll("[data-es][data-en]").forEach((element) => {
-          const text = element.dataset[nextLanguage];
-          if (text) element.textContent = text;
-        });
-        document.querySelectorAll("[data-language]").forEach((button) => {
-          const active = button.dataset.language === nextLanguage;
-          button.classList.toggle("active", active);
-          button.setAttribute("aria-pressed", String(active));
-        });
-        localStorage.setItem("guide-language", nextLanguage);
-      };
-      setLanguage(language);
-      document.querySelectorAll("[data-language]").forEach((button) => button.addEventListener("click", () => setLanguage(button.dataset.language)));
-      const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add("is-visible"); }), { threshold: 0.12 });
-      document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
-    </script>
+    <script is:inline src="/site-controls.js"></script>
   </body>
 </html>

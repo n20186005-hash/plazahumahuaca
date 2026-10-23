@@ -1,6 +1,6 @@
 ---
 // Design System: “地层与石灰” — a parchment header with an oversized generated mark and compact field-guide navigation.
-const logoUrl = "/assets/plaza-mariano-gomez-logo.png";
+const logoUrl = "/favicon.svg";
 ---
 
 <header class="site-header">
@@ -18,6 +18,7 @@ const logoUrl = "/assets/plaza-mariano-gomez-logo.png";
       <a href="#entorno" data-es="El entorno" data-en="Around the plaza">El entorno</a>
       <a href="#preguntas" data-es="Preguntas" data-en="FAQ">Preguntas</a>
     </nav>
+    <details class="mobile-menu"><summary data-es="Menú" data-en="Menu">Menú</summary><nav><a href="#visita" data-es="Planifica" data-en="Plan your visit">Planifica</a><a href="#llegar" data-es="Cómo llegar" data-en="Getting here">Cómo llegar</a><a href="#mapa" data-es="Mapa" data-en="Map">Mapa</a><a href="#preguntas" data-es="Preguntas" data-en="FAQ">Preguntas</a></nav></details>
     <div class="header-controls" aria-label="Selector de idioma">
       <button class="lang-button active" type="button" data-language="es" aria-pressed="true">ES</button>
       <span aria-hidden="true">/</span>
@@ -25,13 +26,6 @@ const logoUrl = "/assets/plaza-mariano-gomez-logo.png";
     </div>
   </div>
 </header>
-
-<script is:inline>
-  const brandLogo = document.querySelector("[data-brand-logo]");
-  brandLogo?.addEventListener("error", () => {
-    brandLogo.setAttribute("src", "/favicon.svg");
-  }, { once: true });
-</script>
 
 <style>
   /* Design System: “地层与石灰” — field-guide navigation stays airy, mineral, and visibly tactile. */
@@ -49,5 +43,7 @@ const logoUrl = "/assets/plaza-mariano-gomez-logo.png";
   .lang-button { border:0; padding:.36rem .24rem; color:inherit; background:transparent; font:inherit; font-weight:700; cursor:pointer; }
   .lang-button.active { color:var(--umber); text-decoration:underline; text-decoration-color:var(--ochre); text-decoration-thickness:3px; text-underline-offset:4px; }
   .lang-button:active { transform:scale(.97); }
+  .mobile-menu{display:none}.mobile-menu nav{display:grid;gap:.65rem;padding:.8rem 0}.mobile-menu summary{cursor:pointer;font-weight:700}
+  @media(max-width:760px){.mobile-menu{display:block;order:3;width:100%}.header-inner{flex-wrap:wrap;padding:.7rem 0}.site-header:has(details[open]){position:relative}}
   @media (max-width: 760px) { .header-inner{min-height:74px}.desktop-nav{display:none}.brand img{width:2.7rem;height:2.7rem}.brand .display{font-size:1rem} }
 </style>
