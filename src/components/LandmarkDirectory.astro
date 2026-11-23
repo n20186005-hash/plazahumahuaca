@@ -1,0 +1,15 @@
+---
+import {landmarks,landmarkPath} from '../lib/landmarks.mjs';
+import {towerRoute} from '../lib/visitor-routes.mjs';
+const towns = [...new Set(landmarks.map(p=>p.town))];
+---
+<section id="lugares" class="section-wrap directory">
+  <h2 class="display" data-en="Walks from the square and excursions in the Quebrada">Paseos desde la plaza y excursiones por la Quebrada</h2>
+  <p data-en="The public square is part of Humahuaca’s civic centre. The Cabildo houses municipal institutions, the cathedral is a place of worship and the municipal interpretive museum tells the story of the Independence Monument. Ask the municipality on site about events, works and responsibility for individual facilities.">La plaza pública forma parte del centro cívico de Humahuaca. El Cabildo alberga instituciones municipales, la catedral es un lugar de culto y el museo interpretativo municipal explica la historia del monumento a la Independencia. Consulta al municipio en el lugar por actos, obras y responsables de servicios concretos.</p>
+  <p><a href="https://turismo-hca.com/lugares-de-interes/" data-en="Municipal heritage guide">Guía municipal del patrimonio</a></p>
+  <p data-en="Start on foot in central Humahuaca. Coctaca, Inca Cueva and Hornocal are separate outings. For places in other towns, arrange transport first and begin the local walk there.">Empieza a pie en el centro de Humahuaca. Coctaca, Inca Cueva y Hornocal son salidas independientes. Para visitar otras localidades, organiza primero el transporte y comienza allí el paseo a pie.</p>
+  <div>{towns.map(town=><section><h3>{town}</h3><ul>{town==='Humahuaca'&&<li><a href={towerRoute}>Torre de Santa Bárbara</a></li>}{landmarks.filter(p=>p.town===town).map(p=><li><a href={landmarkPath(p)}>{p.name}</a></li>)}</ul></section>)}</div>
+</section>
+<style>
+.directory{padding-block:3.5rem}.directory h2{font-size:clamp(2rem,5vw,3.5rem);max-width:24ch}.directory>p{max-width:75ch}.directory>div{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(14rem,100%),1fr));gap:1.5rem;margin-top:2rem}.directory ul{padding-left:1.1rem}.directory li{margin:.5rem 0}.directory a{text-decoration:underline}
+</style>

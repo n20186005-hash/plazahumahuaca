@@ -1,4 +1,6 @@
-const pages=new Set(['/','/en/','/privacy/','/en/privacy/','/terms/','/en/terms/','/cookies/','/en/cookies/']);
+import {landmarks,landmarkPath} from './src/lib/landmarks.mjs';
+import {towerRoute} from './src/lib/visitor-routes.mjs';
+const pages=new Set(['/','/en/','/privacy/','/en/privacy/','/terms/','/en/terms/','/cookies/','/en/cookies/',towerRoute,'/en'+towerRoute,...landmarks.flatMap(p=>[landmarkPath(p),'/en'+landmarkPath(p)])]);
 export default {
  async fetch(request,env){
   const url=new URL(request.url),production=url.hostname==='plazahumahuaca.com'||url.hostname==='www.plazahumahuaca.com';

@@ -1,0 +1,84 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const places = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Torre de Santa Bárbara, Humahuaca, Jujuy, Argentina");
+const law = "https://boletinoficial.jujuy.gob.ar/?p=57489";
+const officialGuide = "https://www.turismo.jujuy.gob.ar/wp-content/uploads/Manual-para-Guias-Idoneos_QUEBRADA_v5.pdf";
+const sculpture = "https://www.argentina.gob.ar/node/400562";
+const sections = [
+  {
+    es: "Monumento provincial y contexto",
+    en: "Provincial heritage and context",
+    esBody: "La Torre de Santa Bárbara conserva un vestigio de la antigua capilla de Humahuaca. El manual turístico provincial explica que la torre sobrevivió a la demolición de la capilla y fue trasladada para dar lugar al conjunto escultórico. La Ley 5360 de Jujuy protege la torre y la escultura como monumentos históricos provinciales. La declaración nacional del Decreto 769/2019 identifica al conjunto escultórico vecino, no a la torre. La protección patrimonial no implica que la torre funcione como museo o que pueda visitarse por dentro.",
+    enBody: "The Santa Bárbara Tower is a surviving part of Humahuaca’s former chapel. The provincial tourism guide explains that the tower survived the demolition of the chapel and was moved to make room for the sculptural group. Jujuy Law 5360 protects both the tower and the sculpture as provincial historic monuments. The national designation under Decree 769/2019 identifies the neighbouring sculpture, not the tower. Heritage protection does not mean the tower operates as a museum or admits visitors indoors.",
+  },
+  {
+    es: "Qué observar en el exterior",
+    en: "What to look for from outside",
+    esBody: "Distingue el perfil estrecho del antiguo campanario de la escala del monumento cívico vecino. La proximidad de ambos permite leer dos etapas del cerro, sin confundir la torre que quedó de la capilla con el pedestal o las figuras del monumento. La escalinata asciende hacia el conjunto de la loma; no describe una entrada al campanario.",
+    enBody: "Compare the narrow profile of the former bell tower with the scale of the neighbouring civic monument. Their proximity makes two stages of the hill’s history visible without mistaking the remnant of the chapel for the sculpture’s plinth or figures. The broad staircase leads up the hill to the ensemble; it does not indicate an entrance to the bell tower.",
+  },
+  {
+    es: "Paseo a pie desde la plaza",
+    en: "Walking from the square",
+    esBody: "Desde la plaza central, ubica primero la escalinata del Monumento a los Héroes de la Independencia. Si te resulta cómoda la subida y el paso está abierto, asciende al cerro y localiza la torre junto al conjunto escultórico. En altura, camina a tu ritmo y haz pausas fuera del paso; regresa por un recorrido público señalizado. No se ha comprobado una alternativa sin escalones ni un acceso vehicular a la torre.",
+    enBody: "From the central square, first locate the stairs to the Heroes of Independence Monument. If you are comfortable climbing and access is open, take the staircase up the hill and find the tower beside the sculptural group. Pace yourself at altitude, stop clear of the walkway and return along a signed public route. A step-free alternative or vehicle access to the tower has not been verified.",
+  },
+  {
+    es: "Transporte y fotografía",
+    en: "Transport and photographs",
+    esBody: "Si llegas en autobús o vehículo, plantea el cerro como un recorrido desde el centro de Humahuaca y consulta localmente dónde es posible dejar el vehículo. Para fotografiar la torre, busca un punto exterior estable y deja espacio a quienes usan la escalinata. Un encuadre con la torre y el conjunto vecino permite mostrar que son dos hitos distintos; no subas a los muros ni cruces zonas restringidas.",
+    enBody: "If arriving by bus or car, plan the hill as an outing from central Humahuaca and ask locally where vehicles may stop. For photographs, use a stable exterior viewpoint and leave room for people on the staircase. Framing the tower and its neighbour together can show two separate landmarks; do not climb walls or enter restricted areas.",
+  },
+];
+const faqs = [
+  { es: "¿La torre es el Monumento a los Héroes?", en: "Is the tower the Heroes of Independence Monument?", esBody: "No. Comparten el cerro Santa Bárbara, pero la torre proviene de la antigua capilla y el monumento es un conjunto escultórico distinto.", enBody: "No. They share Santa Bárbara hill, but the tower comes from the old chapel, whereas the monument is a separate sculptural group." },
+  { es: "¿Se puede entrar en la torre?", en: "Can I go inside the tower?", esBody: "No se dispone de confirmación de acceso interior, horarios ni tarifas. Planifica una vista desde el exterior y respeta los avisos del lugar.", enBody: "Interior access, opening hours and charges are not confirmed. Plan to see it from outside and follow notices at the site." },
+  { es: "¿Hay una ruta sin escalones?", en: "Is there a step-free route?", esBody: "La subida descrita por Turismo de Jujuy tiene una escalinata. No se ha verificado una alternativa sin escalones; pregunta localmente si necesitas otra opción.", enBody: "The approach described by Jujuy Tourism has a staircase. No step-free alternative has been verified; ask locally if you need another option." },
+];
+---
+<BaseLayout title="Torre de Santa Bárbara, Humahuaca | Visita exterior y mapa" description="Encuentra la antigua torre de la capilla en el cerro Santa Bárbara y distingue este monumento provincial de la escultura vecina.">
+  <section class="visit-section texture">
+    <div class="section-wrap">
+      <p class="eyebrow" data-es="En el cerro · Humahuaca, Jujuy" data-en="On the hill · Humahuaca, Jujuy">En el cerro · Humahuaca, Jujuy</p>
+      <h1 class="display">Torre de Santa Bárbara</h1>
+      <p data-es="Una torre de la antigua capilla, junto al Monumento a los Héroes de la Independencia. Mira el exterior y distingue sus historias antes de subir desde el centro de Humahuaca." data-en="A surviving chapel tower beside the Heroes of Independence Monument. Plan an exterior visit and distinguish their histories before climbing up from central Humahuaca.">Una torre de la antigua capilla, junto al Monumento a los Héroes de la Independencia. Mira el exterior y distingue sus historias antes de subir desde el centro de Humahuaca.</p>
+      <div class="hero-actions">
+        <a class="primary-action" href={places} data-es="Ubicar la torre en Google Maps" data-en="Find the tower on Google Maps">Ubicar la torre en Google Maps</a>
+        <a class="secondary-action" href="/" data-es="Volver a la guía de la plaza" data-en="Back to the square guide">Volver a la guía de la plaza</a>
+      </div>
+    </div>
+  </section>
+  <section class="orientation section-wrap">
+    <div class="orientation-heading">
+      <p class="eyebrow" data-es="Patrimonio de Jujuy" data-en="Heritage of Jujuy">Patrimonio de Jujuy</p>
+      <h2 class="display" data-es={sections[0].es} data-en={sections[0].en}>{sections[0].es}</h2>
+    </div>
+    <div class="orientation-copy">
+      <p data-es={sections[0].esBody} data-en={sections[0].enBody}>{sections[0].esBody}</p>
+      <p data-es="Fotografía de la torre no disponible en esta guía." data-en="A photograph of the tower is not available in this guide.">Fotografía de la torre no disponible en esta guía.</p>
+    </div>
+  </section>
+  <section class="visit-section texture">
+    <div class="section-wrap visit-grid">
+      <h2 class="display" data-es="Cómo preparar la visita exterior" data-en="Planning an exterior visit">Cómo preparar la visita exterior</h2>
+      <div class="visit-cards">
+        {sections.slice(1).map((item, i) => (
+          <article class="info-card">
+            <span aria-hidden="true">{i + 1}</span><h3 data-es={item.es} data-en={item.en}>{item.es}</h3>
+            <p data-es={item.esBody} data-en={item.enBody}>{item.esBody}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section-wrap">
+    <h2 class="display" data-es="Preguntas de la visita" data-en="Visitor questions">Preguntas de la visita</h2>
+    {faqs.map(q => <details><summary data-es={q.es} data-en={q.en}>{q.es}</summary><p data-es={q.esBody} data-en={q.enBody}>{q.esBody}</p></details>)}
+    <h2 class="display" data-es="Fuentes" data-en="Sources">Fuentes</h2>
+    <ul>
+      <li><a class="link-arrow" href={law} data-es="Boletín Oficial de Jujuy: Ley 5360" data-en="Jujuy Official Gazette: Law 5360">Boletín Oficial de Jujuy: Ley 5360</a></li>
+      <li><a class="link-arrow" href={officialGuide} data-es="Turismo de Jujuy: Manual de la Quebrada" data-en="Jujuy Tourism: Quebrada guidebook">Turismo de Jujuy: Manual de la Quebrada</a></li>
+      <li><a class="link-arrow" href={sculpture} data-es="Patrimonio nacional: ficha de la escultura vecina" data-en="National heritage: record for the neighbouring sculpture">Patrimonio nacional: ficha de la escultura vecina</a></li>
+    </ul>
+  </section>
+</BaseLayout>

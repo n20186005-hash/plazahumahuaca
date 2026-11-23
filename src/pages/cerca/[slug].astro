@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {landmarks,landmarkPath} from '../../lib/landmarks.mjs';
+export function getStaticPaths(){return landmarks.map(p=>({params:{slug:p.slug},props:{place:p}}));}
+const {place:p}=Astro.props;
+const sources:Record<string,string>={
+ town:'https://turismo-hca.com/lugares-de-interes/', culture:'https://turismo-hca.com/espacios-culturales/',
+ north:'https://www.argentina.travel/actividades/humahuaca',valley:'https://larutanatural.gob.ar/es/imperdible/99/quebrada-de-humahuaca',
+ heritage:'https://www.argentina.gob.ar/capital-humano/cultura/monumentos/capilla-de-la-santa-cruz-y-san-francisco-de-paula-uquia',chapel:'https://www.argentina.gob.ar/node/400482',
+ association:'https://quebradaypuna.com.ar/que-recorrer/',tilcara:'https://www.argentina.travel/actividades/tilcara',
+ gorge:'https://www.turismo.jujuy.gob.ar/wp-content/uploads/Manual-para-Guias-Idoneos_QUEBRADA_v5.pdf',
+ rosa:'https://www.argentina.gob.ar/capital-humano/cultura/monumentos/capilla-de-santa-rosa-de-lima-purmamarca',purma:'https://purmamarca.gob.ar/atractivos-turisticos/'
+};
+const maps='https://www.google.com/maps/search/?'+new URLSearchParams({api:'1',query:p.name+', '+p.town+', Jujuy, Argentina'});
+const local=p.town==='Humahuaca'&&!['north','valley'].includes(p.source);
+const [startEs,...lookEs]=p.route.split(/(?<=\.) /);
+const [startEn,...lookEn]=p.walk.split(/(?<=\.) /);
+const i=landmarks.findIndex(a=>a.slug===p.slug);
+const related=landmarks.filter(a=>a.slug!==p.slug&&a.town===p.town).slice(0,2);
+if(!related.length)related.push(landmarks[(i+1)%landmarks.length]);
+---
+<BaseLayout title={p.name+' en '+p.town+' | Guía de visita'} description={p.es}>
+<article class="section-wrap guide">
+<nav><a href="/" data-en="Square guide">Guía de la plaza</a> / {p.town}</nav>
+<h1 class="display">{p.name}</h1>
+<h2 data-en="History and setting">Historia y entorno</h2><p data-en={p.en}>{p.es}</p>
+<h2 data-en="What to observe and photograph">Qué observar y fotografiar</h2><p data-en={lookEn.join(' ')}>{lookEs.join(' ')}</p>
+<figure><figcaption data-en="A verified photograph of this place is pending.">Fotografía de este lugar pendiente de verificación.</figcaption></figure>
+<h2 data-en="Walking route and transport">Ruta a pie y transporte</h2><p data-en={startEn}>{startEs}</p>
+<p data-en={local?'From Humahuaca bus terminal, continue towards the main square and use the local walking approach above.':'Plan this as a separate excursion. Confirm the outward and return transport and the permitted local walking route before leaving Humahuaca.'}>{local?'Desde la terminal de Humahuaca continúa hacia la plaza principal y sigue el acceso peatonal descrito arriba.':'Planifica una excursión independiente. Confirma el transporte de ida y vuelta y el recorrido peatonal habilitado antes de salir de Humahuaca.'}</p>
+<a href={maps} data-en={'Find '+p.name+' on Google Maps'}>Ubicar {p.name} en Google Maps</a>
+<h2 data-en="Planning your visit">Consejos para la visita</h2>
+<p data-en={['culture','heritage','tilcara','chapel','rosa'].includes(p.source)?'Check opening arrangements locally. Interior photographs and access during ceremonies or conservation work may need permission.':'Use signed public access. Ask locally about events, community access or trail closures before choosing your route.'}>{['culture','heritage','tilcara','chapel','rosa'].includes(p.source)?'Consulta los horarios en el lugar. El acceso durante ceremonias u obras y las fotografías interiores pueden requerir autorización.':'Usa los accesos públicos señalizados. Consulta por actos, permisos comunitarios o cierres de senderos antes de elegir el recorrido.'}</p>
+<h2 data-en="Frequently asked questions">Preguntas frecuentes</h2>
+<details><summary data-en="Where do I start?">¿Por dónde comienzo?</summary><p data-en={startEn}>{startEs}</p></details>
+<details><summary data-en="Does the map confirm access today?">¿El mapa confirma el acceso de hoy?</summary><p data-en="The map locates the destination. Confirm opening, conditions and any fees at the site or with the local visitor office.">El mapa localiza el destino. Confirma la apertura, las condiciones y cualquier tarifa con el sitio o la oficina local de turismo.</p></details>
+<h2 data-en="More places to visit">Otras visitas</h2><ul>{related.map(a=><li><a href={landmarkPath(a)}>{a.name}</a></li>)}</ul>
+<p><a href={sources[p.source]} data-en="Visitor or heritage source">Fuente turística o patrimonial</a> · <a href="/" data-en="Back to the square guide">Volver a la guía de la plaza</a></p>
+</article>
+</BaseLayout>
+<style>
+.guide{max-width:50rem;padding-block:3.5rem}.guide h1{font-size:clamp(2.4rem,6vw,4rem);line-height:1.05}.guide h2{margin:2rem 0 .45rem}.guide p{line-height:1.65}.guide figure{margin:1.2rem 0;padding:1rem;background:var(--limestone)}.guide a{text-decoration:underline}.guide details{margin:.7rem 0}
+</style>

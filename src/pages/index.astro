@@ -1,6 +1,8 @@
 ---
 // Design System: “地层与石灰” — a single-page highland field guide arranged along an irregular valley path, balancing real photography with archival graphic texture.
 import BaseLayout from "../layouts/BaseLayout.astro";
+import LandmarkDirectory from "../components/LandmarkDirectory.astro";
+import {towerRoute} from "../lib/visitor-routes.mjs";
 const heroGraphic = "/assets/contours.svg";
 const routeMarker = "/assets/contours.svg";
 const strataPanel = "/assets/contours.svg";
@@ -28,6 +30,7 @@ const landscapePhoto = "/assets/quebrada-landscape-commons.jpg";
     </div>
   </section>
 
+  <LandmarkDirectory />
   <section class="orientation section-wrap reveal" aria-label="Orientación">
     <div class="orientation-heading">
       <p class="eyebrow" data-es="El punto de partida" data-en="Your starting point">El punto de partida</p>
@@ -69,6 +72,13 @@ const landscapePhoto = "/assets/quebrada-landscape-commons.jpg";
   <section id="mapa" class="map-section texture">
     <div class="section-wrap map-head reveal"><p class="eyebrow" data-es="Ubicación" data-en="Location">Ubicación</p><h2 class="display" data-es="Plaza Sargento Mariano Gómez" data-en="Plaza Sargento Mariano Gómez">Plaza Sargento Mariano Gómez</h2><p data-es="Jujuy, 4630 Humahuaca, Jujuy, Argentina · Coordenadas aproximadas: −23.2039735, −65.3487032." data-en="Jujuy, 4630 Humahuaca, Jujuy, Argentina · Approximate coordinates: −23.2039735, −65.3487032.">Jujuy, 4630 Humahuaca, Jujuy, Argentina · Coordenadas aproximadas: −23.2039735, −65.3487032.</p></div>
     <div class="map-frame section-wrap reveal"><iframe title="Mapa de Plaza Sargento Mariano Gómez" src="https://www.google.com/maps?q=-23.2039735,-65.3487032&output=embed" width="600" height="450" style="border:0" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+  </section>
+
+  <section class="section-wrap">
+    <p class="eyebrow" data-es="Visita cercana" data-en="Nearby visit">Visita cercana</p>
+    <h2 class="display">Torre de Santa Bárbara</h2>
+    <p data-es="En el cerro, junto a la escultura de la Independencia, queda una torre de la antigua capilla. Consulta cómo distinguirla y preparar una visita exterior." data-en="A tower from the former chapel survives on the hill, beside the Independence sculpture. Find out how to tell them apart and plan an exterior visit.">En el cerro, junto a la escultura de la Independencia, queda una torre de la antigua capilla. Consulta cómo distinguirla y preparar una visita exterior.</p>
+    <a class="link-arrow" href={towerRoute} data-es="Guía de la Torre de Santa Bárbara" data-en="Santa Bárbara Tower guide">Guía de la Torre de Santa Bárbara</a>
   </section>
 
   <section id="entorno" class="environment-section">

@@ -1,5 +1,7 @@
+import {landmarks,landmarkPath} from '../src/lib/landmarks.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {parse} from 'parse5';import worker from '../worker.mjs';
-const routes=['/','/en/','/privacy/','/en/privacy/','/terms/','/en/terms/','/cookies/','/en/cookies/'];
+import {towerRoute} from '../src/lib/visitor-routes.mjs';
+const routes=['/','/en/','/privacy/','/en/privacy/','/terms/','/en/terms/','/cookies/','/en/cookies/',towerRoute,'/en'+towerRoute,...landmarks.flatMap(p=>[landmarkPath(p),'/en'+landmarkPath(p)])];
 function nodes(n,out=[]){out.push(n);for(const c of n.childNodes||[])nodes(c,out);return out;}const attr=(n,k)=>n.attrs?.find(a=>a.name===k)?.value;const text=n=>n.nodeName==='#text'?n.value:(n.childNodes||[]).map(text).join('');
 const file=route=>'dist'+(route==='/'?'/index.html':route+'index.html');
 test('all static page families are crawlable with matching language metadata, assets and FAQ',()=>{
@@ -28,5 +30,27 @@ test('observed Assets canonical error aliases keep designed localized body and r
  for(const route of ['/missing','/404','/404/','/404.html','/en/missing','/en/404','/en/404.html']){
   const response=await worker.fetch(new Request('https://plazahumahuaca.com'+route),env);assert.equal(response.status,404);assert.equal(response.headers.get('Location'),null);assert.equal(response.headers.get('X-Robots-Tag'),'noindex');const body=await response.text();assert.ok(body.length>500);if(route.startsWith('/en/'))assert.ok(body.includes('This path is not in the guide.'));
   const head=await worker.fetch(new Request('https://plazahumahuaca.com'+route,{method:'HEAD'}),env);assert.equal(head.status,404);assert.equal(head.headers.get('Location'),null);assert.equal(await head.text(),'');
+ }
+});
+
+test('tower guide has distinct localised discovery, protected facts and canonical Worker redirects',async()=>{
+ for(const lang of ['es','en']){
+  const prefix=lang==='en'?'/en':'';const route=prefix+towerRoute;
+  const homeNodes=nodes(parse(fs.readFileSync(file(prefix+'/'),'utf8')));
+  assert.ok(homeNodes.some(n=>n.tagName==='a'&&attr(n,'href')===route));
+  const html=fs.readFileSync(file(route),'utf8'),all=nodes(parse(html));
+  const main=all.find(n=>n.tagName==='main');
+  assert.equal(nodes(main).filter(n=>n.tagName==='details').length,3);
+  assert.equal(attr(all.find(n=>n.tagName==='html'),'lang'),lang==='en'?'en':'es-AR');
+  assert.ok(all.some(n=>n.tagName==='a'&&attr(n,'href')===prefix+'/'));
+  assert.equal(new URL(attr(all.find(n=>attr(n,'href')?.startsWith('https://www.google.com/maps/search/')),'href')).searchParams.get('query'),'Torre de Santa Bárbara, Humahuaca, Jujuy, Argentina');
+  assert.ok(html.includes('5360')&&html.includes('769/2019'));
+  assert.ok(!all.some(n=>attr(n,'property')==='og:image'));
+  assert.ok(html.includes(lang==='en'?'Planning an exterior visit':'Cómo preparar la visita exterior'));
+  assert.ok(!html.includes(lang==='en'?'Cómo preparar la visita exterior':'Planning an exterior visit'));
+  for (const alias of [route.slice(0,-1),route+'index.html']) {
+   const r=await worker.fetch(new Request('https://plazahumahuaca.com'+alias+'?v=1'),env);
+   assert.equal(r.status,301);assert.equal(r.headers.get('Location'),'https://plazahumahuaca.com'+route+'?v=1');
+  }
  }
 });
